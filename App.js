@@ -1,27 +1,22 @@
 import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 import {NativeBaseProvider} from 'native-base';
-
-import Home from './src/View/Home';
-import Find from './src/View/Find';
-import Chat from './src/View/Chat';
-import Tabs from './src/View/Tabs';
-import Login from './src/View/Login';
-import Settings from './src/View/Settings';
-import Profile from './src/View/Profile';
-import New from './src/View/New';
-import Call from './src/View/Call';
-import NewTab from './src/View/NewTab';
-//import Tabss from './src/View/Tabss';
-
-import RegisterScreen from './src/View/RegisterScreen';
-import HomeScreen from './src/View/HomeScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {QueryClient, QueryClientProvider} from 'react-query';
+
+import Home from './src/View/Home';
+import Chat from './src/View/Chat';
+import Login from './src/View/Login';
+import Settings from './src/View/Settings';
+import Profile from './src/View/Profile';
+import Map from './src/View/Map';
+import RegisterScreen from './src/View/RegisterScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const queryClient = new QueryClient();
 
 const BottomTabs = () => {
   return (
@@ -71,8 +66,8 @@ const BottomTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={Settings}
+        name="Map"
+        component={Map}
         options={{
           tabBarLabelStyle: {fontSize: 14, fontWeight: 'bold'},
 
@@ -86,7 +81,7 @@ const BottomTabs = () => {
       />
       <Tab.Screen
         name="NewTab"
-        component={NewTab}
+        component={Settings}
         options={{
           tabBarLabelStyle: {fontSize: 14, fontWeight: 'bold'},
 
@@ -104,32 +99,30 @@ const BottomTabs = () => {
 
 const App = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-      }}>
-      <NativeBaseProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="RegisterScreen">
-            <Stack.Screen
-              name="BottomTabs"
-              component={BottomTabs}
-              options={{headerShown: false}}
-            />
-            {/* <Stack.Screen
-            name="Chat"
-            component={Chat}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="New"
-            component={New}
-            options={{headerShown: false}}
-          />{' '} */}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </NativeBaseProvider>
-    </View>
+    <QueryClientProvider client={queryClient}>
+      <View
+        style={{
+          flex: 1,
+        }}>
+        <NativeBaseProvider>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="Login">
+              <Stack.Screen
+                name="login"
+                component={Login}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+              <Stack.Screen
+                name="BottomTabs"
+                component={BottomTabs}
+                options={{headerShown: false}}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </NativeBaseProvider>
+      </View>
+    </QueryClientProvider>
   );
 };
 

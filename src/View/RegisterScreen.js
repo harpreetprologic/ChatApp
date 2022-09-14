@@ -13,6 +13,8 @@ const RegisterScreen = props => {
   const [lastName, setlastName] = useState('');
   const [gender, setgender] = useState('');
   const [date, setdate] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const userSave = async () => {
     let user = {
@@ -37,14 +39,18 @@ const RegisterScreen = props => {
   };
 
   const register = () => {
-    if (firstName == '') {
+    if (!firstName) {
       alert('Please enter First Name');
-    } else if (lastName == '') {
+    } else if (!lastName) {
       alert('Please enter Last Name');
-    } else if (gender == '') {
+    } else if (!gender) {
       alert('Please enter Gender');
-    } else if (date == '') {
+    } else if (!date) {
       alert('Please enter Date of Birth');
+    } else if (!email) {
+      alert('Please enter your email');
+    } else if (!password) {
+      alert('Please enter password');
     } else {
       userSave();
     }
@@ -78,6 +84,18 @@ const RegisterScreen = props => {
         value={date}
         onChangeText={text => setdate(text)}
       />
+      <TextInput
+        style={styles.field}
+        placeholder="Email"
+        value={email}
+        onChangeText={text => setEmail(text)}
+      />
+      <TextInput
+        style={styles.field}
+        placeholder="Password"
+        value={password}
+        onChangeText={text => setPassword(text)}
+      />
       <TouchableOpacity style={styles.botton} onPress={() => register()}>
         <Text style={{color: 'white', fontWeight: '800'}}>Register</Text>
       </TouchableOpacity>
@@ -101,6 +119,7 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     marginTop: 10,
     borderRadius: 15,
+    padding: 10,
   },
   botton: {
     width: '60%',

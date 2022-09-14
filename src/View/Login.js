@@ -1,15 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   TouchableOpacity,
   Text,
   TextInput,
   View,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 
 const Login = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const [loading, setLoading] = useState(false);
+  const [loadingsc, setLoadingsc] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadingsc(false);
+    }, 2000);
+  }, []);
+
+  if (loadingsc) {
+    return (
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
   return (
     <View
       style={{flex: 1, justifyContent: 'center', backgroundColor: '#ffddcc'}}>
@@ -30,15 +49,14 @@ const Login = props => {
 
       <TouchableOpacity
         style={styles.botton}
-        onPress={() => props.navigation.navigate('RegisterScreen')}>
+        onPress={() => props.navigation.navigate('BottomTabs')}>
         <Text style={{color: 'white', fontWeight: '800'}}>Login</Text>
+        {loading && (
+          <ActivityIndicator color={'white'} style={{marginLeft: 10}} />
+        )}
       </TouchableOpacity>
 
-      <Text
-        style={styles.forgotStyle}
-        onPress={() => {
-          props.navigation.navigate('New');
-        }}>
+      <Text style={styles.forgotStyle} onPress={() => {}}>
         Forget Password?
       </Text>
 
@@ -93,6 +111,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 20,
     borderRadius: 15,
+    flexDirection: 'row',
   },
   forgotStyle: {
     fontSize: 20,
